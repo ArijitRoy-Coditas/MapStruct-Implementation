@@ -1,7 +1,9 @@
 package business
 
 import (
+	genericConstants "ABCD/src/constants"
 	"ABCD/src/utils/postgres"
+	"authentication/common/constants"
 	"authentication/models"
 	"authentication/repositories"
 	"context"
@@ -23,12 +25,12 @@ func (service *CreateUserService) CreateUser(ctx context.Context, Span context.C
 	postgresClient := postgres.GetDBInstance()
 
 	condition := map[string]interface{}{
-		"username": bffCreateUserRequest.Username, "name": bffCreateUserRequest.Name, "email": bffCreateUserRequest.Email,
-		"password": bffCreateUserRequest.Password, "phoneNumber": bffCreateUserRequest.PhoneNumber, "panCard": bffCreateUserRequest.PanCard,
+		genericConstants.Username: bffCreateUserRequest.Username, genericConstants.Name: bffCreateUserRequest.Name, genericConstants.Email: bffCreateUserRequest.Email,
+		genericConstants.Password: bffCreateUserRequest.Password, genericConstants.PhoneNumber: bffCreateUserRequest.PhoneNumber, genericConstants.PanCard: bffCreateUserRequest.PanCard,
 	}
 	err := service.createUserRepositories.CreateUsrByCondition(ctx, postgresClient.GormDB, condition)
 	if err != nil {
-		if strings.Contains(err.Error(), "Duplication key violation") {
+		if strings.Contains(err.Error(), constants.UniqueConstraintViolationError) {
 			return err
 		}
 	}

@@ -25,3 +25,13 @@ const (
 const (
 	JsonBindingFieldError = "unexpected value for the field"
 )
+
+// Database table name & field names for users
+const (
+	Username          = "username"
+	Name              = "name"
+	Email             = "email"
+	PhoneNumber       = "phoneNumber"
+	PanCard           = "panCard"
+	Password          = "password"
+)
